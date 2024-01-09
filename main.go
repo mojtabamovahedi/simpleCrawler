@@ -20,6 +20,10 @@ func main() {
 	setLinks = make(map[uint32]string)
 	var wg sync.WaitGroup
 
+	server := new(http.Server)
+	server.ReadTimeout = 5 * time.Second
+	server.WriteTimeout = 5 * time.Second
+
 	callHttpRequest(baseURL, &wg)
 
 	wg.Wait()
@@ -55,7 +59,7 @@ func callHttpRequest(url string, wg *sync.WaitGroup) {
 	}
 	fmt.Println("# '" + url + "'")
 	setLinks[hash(url)] = url
-	time.Sleep(time.Millisecond * 1500)
+	time.Sleep(time.Millisecond * 2000)
 
 	defer resp.Body.Close()
 
